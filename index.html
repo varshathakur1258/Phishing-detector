@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>Phishing URL Detector</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f6f8;
+            color: #333;
+            padding: 20px;
+        }
+        h1 {
+            color: #005792;
+        }
+        .form-box {
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            max-width: 500px;
+            margin: auto;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            margin-bottom: 15px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+        input[type="submit"] {
+            background-color: #005792;
+            color: white;
+            padding: 10px 20px;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .result {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+        .safe {
+            background-color: #d4edda;
+            color: #155724;
+        }
+        .phishing {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+        .note {
+            font-size: 14px;
+            margin-bottom: 10px;
+            color: #ff0000;
+        }
+    </style>
+</head>
+<body>
+    <div class="form-box">
+        <h1>Phishing URL Detector</h1>
+        <p class="note">⚠️ Note: Please avoid logging into any suspicious site. This is a simulation to test for phishing risks.</p>
+        <form method="POST">
+            <input type="text" name="url" placeholder="Enter a URL (e.g. http://example.com)" required />
+            <input type="submit" value="Check" />
+        </form>
+
+        {% if result %}
+        <div class="result {{ 'phishing' if 'Phishing' in result else 'safe' }}">
+            {{ result }}
+        </div>
+        {% endif %}
+
+        {% if details %}
+        <h3>Heuristics:</h3>
+        <ul>
+            {% for k, v in details.items() %}
+            <li>{{ k.replace('_', ' ').capitalize() }}: {{ 'Yes' if v else 'No' }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+
+        {% if domain_info %}
+        <h3>WHOIS Domain Info:</h3>
+        <ul>
+            {% for k, v in domain_info.items() %}
+            <li>{{ k.replace('_', ' ').capitalize() }}: {{ v }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+    </div>
+</body>
+</html>
